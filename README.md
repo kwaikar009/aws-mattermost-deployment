@@ -95,6 +95,7 @@ The solution is built within a custom VPC using public and private subnets to en
 * Restrict database access to application server only (remove public access)
 * Implement Application Load Balancer for scalability
 * Add Auto Scaling for high availability
+* Self managed DB instance can be replaced with managed service like Amazon RDS
 
 ## 🔧 DevOps Perspective
 * Deployment was performed manually using AWS Console and SSH
