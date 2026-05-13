@@ -1,35 +1,37 @@
 
- # 🚀 Scalable Team Communication Platform Deployment on AWS (Mattermost)
+ # 🚀 AWS Secure Multi-Tier Mattermost Deployment
 
 ## 📌 Project Overview
 
-This project demonstrates the deployment of a **self-hosted enterprise team communication platform (Mattermost)** on AWS using a secure and scalable cloud architecture.
+This project demonstrates the deployment of a self-hosted Mattermost collaboration platform on AWS using a secure multi-tier cloud architecture.
 
-The solution is built within a custom VPC using public and private subnets to ensure controlled access, isolation, and secure communication between application and database layers.
+The infrastructure is designed with network isolation, controlled access, and secure communication between application and database layers using AWS networking and security services.
+
+The deployment simulates a production-style environment by separating public-facing application components from backend database infrastructure within a custom VPC.
 
 ---
 
 ## 🏗️ Architecture Highlights
 
-* Custom VPC with public and private subnets
-* Application server hosted in **public subnet**
-* Database server hosted in **private subnet** for enhanced security
-* Internet Gateway for external access
+* Custom AWS VPC with public and private subnet architecture
+* Mattermost application is deployed on an EC2 instance hosted in a **public subnet**
+* MySQL database server deployed in **private subnet** for enhanced security
+* Internet Gateway for inbound public access
 * NAT Gateway for outbound internet access from private subnet
-* EC2 instances used for application and database hosting
-* Secure communication configured using Security Groups
+* Security Groups and Network ACLs for layered network security
+* Bastion-host style SSH access model for private resources
 
 ---
 
-## ☁️ AWS Services Used
+## ☁️ AWS Services Used                       Purpose
 
-* EC2 (Compute)
-* VPC (Networking)
-* Subnets (Public & Private)
-* Internet Gateway
-* NAT Gateway
-* Security Groups
-* Elastic IP
+* EC2 (Compute)                               Application and database hosting
+* VPC (Networking)                            Network isolation and segmentation
+* Subnets (Public & Private)                  Multi-tier architecture design
+* Internet Gateway                            Public internet connectivity
+* NAT Gateway                                 Secure outbound connectivity for private subnet
+* Security Groups                             Instance-level access control
+* Elastic IP                                  Static public access for application server
 
 ---
 
@@ -37,71 +39,78 @@ The solution is built within a custom VPC using public and private subnets to en
 
 ### 1. Network Setup
 
-* Created custom VPC with CIDR block
+* Created custom VPC with segmented public and private subnets
 * Configured:
-
   * Public subnet for application server
   * Private subnet for database server
 
 ### 2. Internet & Routing
 
-* Attached Internet Gateway to VPC
+* Attached Internet Gateway for external application access
 * Configured route tables for public and private subnets
-* Set up NAT Gateway for private subnet outbound traffic
+* Configured NAT Gateway to allow secure outbound internet access from private subnet resources
 
-### 3. EC2 Deployment
+### 3. Compute Layer Deployment
 
-* Launched EC2 instances using **Amazon Linux 2 AMI**
-* Assigned Elastic IP to application server
-* Used application server as a **bastion host** to access private database server
+* Provisioned EC2 instances using **Amazon Linux 2 AMI**
+* Configured application server within public subnet
+* Installed Database server within private subnet
+* Implemented bastion-host style administrative access model
 
-### 4. Application Setup (Mattermost)
+### 4. Application Deployment (Mattermost)
 
-* Manually Installed and configured Mattermost on application server.
+* Installed and configured Mattermost on application server.
 * Verified application accessibility via browser
 
-### 5. Database Setup
+### 5. Database Configuration
 
-* Installed MySQL on database server
-* Configured connectivity between application and database layers
+* Installed MySQL database server
+* Configured secure communication between application and database layers
+* Restricted database exposure from direct public access
 
 ---
 
 ## 🔐 Security Considerations
 
-* Database server deployed in private subnet to restrict direct public access
+* Database server deployed in private subnet to minimize external exposure
 * Security Groups configured to allow controlled access between application and database layers
-* SSH access managed via bastion host
+* Administrative SSH access controlled through bastion-host access path
 
 ---
 
-## 🛠️ Challenges Faced
+## 🛠️ Challenges Encountered
 
-* Initial connectivity issues between application and database servers due to Security Group misconfiguration
-* Required debugging of routing and access rules for private subnet
-* Resolved application access issues after deployment
+* Resolved initial connectivity issues caused by Security Group misconfigurations
+* Troubleshot private subnet outbound connectivity through NAT Gateway
+* Validated secure communication between isolated application and database layers
 
 ---
 
 ## 📈 Key Learnings
 
-* Hands-on experience in **VPC design and subnet isolation**
-* Understanding of **secure cloud architecture and access control**
-* Experience deploying and validating real-world applications on AWS
+* Designed secure AWS multi-tier network architecture
+* Gained hands-on experience with VPC networking, routing, and subnet isolation
+* Improved understanding of cloud security and controlled infrastructure access
+* Practiced deployment and validation of production-style cloud applications
 
 ---
 
 ## 🚀 Future Enhancements
-* Restrict database access to application server only (remove public access)
-* Implement Application Load Balancer for scalability
-* Add Auto Scaling for high availability
-* Self managed DB instance can be replaced with managed service like Amazon RDS
+* Replace self-managed MySQL instance with Amazon RDS
+* Integrate Application Load Balancer (ALB) for traffic distribution
+* Implement Auto Scaling for high availability
+* Automate infrastructure provisioning using Terraform (Infrastructure as Code)
+* Integrate CI/CD pipeline using GitHub Actions or Jenkins
+
 
 ## 🔧 DevOps Perspective
-* Deployment was performed manually using AWS Console and SSH
-* The setup can be automated using Infrastructure as Code (IaC) tools like Terraform
-* Application deployment can be integrated into a CI/CD pipeline using Jenkins or GitHub Actions
+This project demonstrates foundational cloud infrastructure engineering concepts including:
+* Multi-tier architecture design
+* Secure networking and subnet isolation
+* Infrastructure provisioning and configuration
+* Cloud Security Implementation
 
+The current deployment was performed manually using AWS Console and SSH-based administration. Future enhancements will focus on Infrastructure as Code (Terraform) and CI/CD-driven automation workflows.
 
 
 ---
